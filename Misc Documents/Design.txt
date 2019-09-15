@@ -16,6 +16,12 @@ Properties:
 - List of spaces
 
 Methods:
+- Generate board:
+	1. Make a new list of Spaces.
+	2. Loop width times:
+	2.1. Loop height times:
+	2.1.1. Add a space to the list at coordinate (width, height) with initial state 0.
+
 - Draw board:
 	1. Loop height times:
 	1.1. Write "\n|"
