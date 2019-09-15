@@ -1,4 +1,5 @@
 The program should be a game of Tic-Tac-Toe. It should draw the board, ask the user for where it should place the corss, place it, and ask the player where to place the circle. Keep doing this, checking each turn to see whether someone has won yet. If they have, then stop the game and declare player 1 or 2 the winner.
 
 Assumptions:
-- X goes first, and so is player 1,
+- X (player 1) goes first.
+- There will only be human players.
