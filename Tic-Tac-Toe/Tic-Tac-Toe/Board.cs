@@ -55,5 +55,11 @@ namespace Tic_Tac_Toe
             }
             
         }
+
+        public int CheckWin(List<Space> spacesToCheck)
+        {
+
+            return 0;
+        }
     }
 }

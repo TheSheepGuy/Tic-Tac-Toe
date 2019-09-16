@@ -24,6 +24,7 @@ namespace Tic_Tac_Toe
                     gameBoard.DrawBoard();
                     Console.WriteLine($"\nPlease enter the x-coordinate of your move, Player {i}");
                     input = Console.ReadKey();
+                    // Convert the key to an int.
                     int x = int.Parse(input.KeyChar.ToString());
                     Console.WriteLine($"\nPlease enter the y-coordinate");
                     input = Console.ReadKey();
