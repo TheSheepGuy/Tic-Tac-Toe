@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Tic_Tac_Toe
 {
@@ -7,6 +8,16 @@ namespace Tic_Tac_Toe
         static void Main(string[] args)
         {
             Console.WriteLine("===TIC-TAC-TOE===");
+
+            List<string> board = MakeBoard(3, 3);
+            foreach (string spac in board)
+            {
+                Console.Write($"{spac},\n");
+            }
+
+            /* Abandon OOP apporach
+
+
             // Create the game board.
             var gameBoard = new Board(3, 3);
             // Keep track of the game's state, whether it has ended yet,
@@ -31,7 +42,25 @@ namespace Tic_Tac_Toe
                     int y = int.Parse(input.KeyChar.ToString());
                     gameBoard.MakeMove(x, y, i);
                 }
+            }*/
+        }
+
+        static List<string> MakeBoard(int width, int height)
+        {
+            List<string> createdBoard = new List<string>();
+
+            // Fill the board with empty spaces.
+            for (int i = 0; i < width*height; i++)
+            {
+                createdBoard.Add(" ");
             }
+
+            return createdBoard;
+        }
+        static string DrawBoard(List<string> boardToDraw, int width)
+        {
+            string toReturn;
+
         }
     }
 }
