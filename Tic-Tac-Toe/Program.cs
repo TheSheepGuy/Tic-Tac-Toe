@@ -18,8 +18,7 @@ namespace Tic_Tac_Toe
             // Declare a player variable which keeps track of whose turn it is.
 
 
-
-            Console.WriteLine("=TIC-TAC-TOE=");
+            Console.WriteLine("\n\n=TIC-TAC-TOE=");
 
             // Get the width and height of the board.
             while(true)
@@ -69,14 +68,18 @@ namespace Tic_Tac_Toe
         static List<string> MakeMove(List<string> board, int width, int height, int currentPlayer, string moveSymbol)
         {
             List<string> newBoard = board;
-            
             // Take the player's move coordinates.
             int moveX, moveY;
+            // Save user input.
+            System.ConsoleKeyInfo rawInput;
 
             Console.WriteLine($"\nPlease enter an x-coordinate, player {currentPlayer}: ");
-            moveX = CheckForValidMove(width, height, "X");
+            rawInput = Console.ReadKey();
+            moveX = CheckForValidMove(rawInput, width);
+
             Console.WriteLine($"\nPlease enter a y-coordinate, player {currentPlayer}: ");
-            moveY = CheckForValidMove(width, height, "Y");
+            rawInput = Console.ReadKey();
+            moveY = CheckForValidMove(rawInput, height);
 
             int spaceToPlace = moveX + width*moveY;
 
@@ -139,57 +142,29 @@ namespace Tic_Tac_Toe
             return toReturn.ToString();
         }
 
-        static int CheckForValidMove(int width, int height, string coordinate)
+        static int CheckForValidMove(System.ConsoleKeyInfo input, int maxNum)
         {
-            System.ConsoleKeyInfo input = Console.ReadKey();
-            int toReturn = -1;
-
-            // If the move is for the X coordinate, then the maximum value that can be entered must be width-1.
-            if (coordinate == "X")
+            int toReturn;
+            while (true)
             {
-                while (true)
+                // Check if the key pressed is a digit.
+                if (char.IsDigit(input.KeyChar))
                 {
-                    // Check if the key pressed is a digit.
-                    if (char.IsDigit(input.KeyChar))
+                    // Try and convert it to an int.
+                    toReturn = int.Parse(input.KeyChar.ToString());
+                    // If it isn't between the right numbers, then continue onwards and ask for a new one.
+                    if (toReturn >= 0 && toReturn <= maxNum-1)
                     {
-                        // Try and convert it to an int.
-                        toReturn = int.Parse(input.KeyChar.ToString());
-                        // If it isn't between the right numbers, then continue onwards and ask for a new one.
-                        if (toReturn >= 0 && toReturn <= width-1)
-                        {
-                            break;
-                        }
-                        Console.WriteLine($"That is not a valid move. Please enter a number between 0 and {width-1}: ");
-                        input = Console.ReadKey();
+                        break;
                     }
-                    else
-                    {
-                        // It isn't, so it definitely isn't a right move.
-                        Console.WriteLine($"That is not a valid move. Please enter a number between 0 and {width-1}: ");
-                        input = Console.ReadKey();
-                    }
+                    Console.WriteLine($"That is not a valid move. Please enter a number between 0 and {maxNum-1}: ");
+                    input = Console.ReadKey();
                 }
-            }
-            // Same for the Y coordinate.
-            else
-            {
-                while (true)
+                else
                 {
-                    if (char.IsDigit(input.KeyChar))
-                    {
-                        toReturn = int.Parse(input.KeyChar.ToString());
-                        if (toReturn >= 0 && toReturn <= height-1)
-                        {
-                            break;
-                        }
-                        Console.WriteLine($"That is not a valid move. Please enter a number between 0 and {height-1}: ");
-                        input = Console.ReadKey();
-                    }
-                    else
-                    {
-                        Console.WriteLine($"That is not a valid move. Please enter a number between 0 and {height-1}: ");
-                        input = Console.ReadKey();
-                    }
+                    // It isn't, so it definitely isn't a right move.
+                    Console.WriteLine($"That is not a valid move. Please enter a number between 0 and {maxNum-1}: ");
+                    input = Console.ReadKey();
                 }
             }
 
