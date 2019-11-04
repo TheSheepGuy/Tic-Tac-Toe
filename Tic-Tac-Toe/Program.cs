@@ -14,9 +14,8 @@ namespace Tic_Tac_Toe
             const string player1Symbol = "X";
             const string player2Symbol = "O";
             string moveSymbol;
-            // Temporarily make a board of 3x3.
-            const int width = 3;
-            const int height = 3;
+            // Make the width and height variables.
+            int width, height;
             // Declare a player variable which keeps track of whose turn it is.
             int player;
             // Take the player's move coordinates.
@@ -25,6 +24,23 @@ namespace Tic_Tac_Toe
 
 
             Console.WriteLine("=TIC-TAC-TOE=");
+
+            // Get the width and height of the board.
+            while(true)
+            {
+                try
+                {
+                    Console.WriteLine("Please enter the width of the board: ");
+                    width = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Please enter the height of the board: ");
+                    height = int.Parse(Console.ReadLine());
+                    break;
+                }
+                catch(FormatException)
+                {
+                    Console.WriteLine("That is not a number. Please enter a natural number.");
+                }
+            }
             
             List<string> board = MakeBoard(width, height);
             // Work out what the possible maximum moves are (which is the area).
@@ -91,7 +107,7 @@ namespace Tic_Tac_Toe
             }
             toReturn.Append("\n|");
 
-            for (int y = 0; y < width; y++)
+            for (int y = 0; y < height; y++)
             {
                 // This will add "|   |   |   |" etc. for how long the width says to do so (again, the initial | was added above).
                 for (int x = 0; x < width; x++)
@@ -122,7 +138,7 @@ namespace Tic_Tac_Toe
                 }
 
                 // If it's not the last loop, then append a | for the next row.
-                if (y < width-1)
+                if (y < height-1)
                 {
                     toReturn.Append("\n|");
                 }
