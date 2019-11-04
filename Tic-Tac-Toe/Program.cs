@@ -13,13 +13,9 @@ namespace Tic_Tac_Toe
             // Declare the symbols used to represent players 1 and 2.
             const string player1Symbol = "X";
             const string player2Symbol = "O";
-            string moveSymbol;
             // Make the width and height variables.
             int width, height;
             // Declare a player variable which keeps track of whose turn it is.
-            int player;
-            // Take the player's move coordinates.
-            int moveX, moveY;
 
 
 
@@ -48,28 +44,12 @@ namespace Tic_Tac_Toe
 
 
             // Continuously loop until there cannot possibly be any moves left.
-            for (int currentMoveNumber = 0; currentMoveNumber < maxMoves; currentMoveNumber++)
+            for (int currentMoveNumber = 0; currentMoveNumber < maxMoves/2; currentMoveNumber++)
             {
-                Console.Write(DrawBoard(board, width, height));
-
-                if (currentMoveNumber % 2 == 0)
-                {
-                    player = 1;
-                    moveSymbol = player1Symbol;
-
-                }
-                else
-                {
-                    player = 2;
-                    moveSymbol = player2Symbol;
-                }
-
-                Console.WriteLine($"Please enter an x-coordinate, player {player}: ");
-                moveX = CheckForValidMove(width, height, "X");
-                Console.WriteLine($"Please enter a y-coordinate, player {player}: ");
-                moveY = CheckForValidMove(width, height, "Y");
-
-                MakeMove(board, moveX, moveY, width, moveSymbol);
+                Console.WriteLine(DrawBoard(board, width, height));
+                MakeMove(board, width, height, 1, player1Symbol);
+                Console.WriteLine(DrawBoard(board, width, height));
+                MakeMove(board, width, height, 2, player2Symbol);
             }
         }
 
@@ -86,13 +66,21 @@ namespace Tic_Tac_Toe
             return createdBoard;
         }
 
-        static List<string> MakeMove(List<string> board, int x, int y, int width, string currentPlayer)
+        static List<string> MakeMove(List<string> board, int width, int height, int currentPlayer, string moveSymbol)
         {
             List<string> newBoard = board;
+            
+            // Take the player's move coordinates.
+            int moveX, moveY;
 
-            int spaceToPlace = x + width*y;
+            Console.WriteLine($"\nPlease enter an x-coordinate, player {currentPlayer}: ");
+            moveX = CheckForValidMove(width, height, "X");
+            Console.WriteLine($"\nPlease enter a y-coordinate, player {currentPlayer}: ");
+            moveY = CheckForValidMove(width, height, "Y");
 
-            newBoard[spaceToPlace] = currentPlayer;
+            int spaceToPlace = moveX + width*moveY;
+
+            newBoard[spaceToPlace] = moveSymbol;
 
             return newBoard;
         }
