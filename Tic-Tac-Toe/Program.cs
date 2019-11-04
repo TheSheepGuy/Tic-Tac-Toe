@@ -52,42 +52,35 @@ namespace Tic_Tac_Toe
             }
         }
 
-        static List<string> MakeBoard(int width, int height)
+        static int CheckForValidMove(System.ConsoleKeyInfo input, int maxNum)
         {
-            List<string> createdBoard = new List<string>();
-
-            // Fill the board with empty spaces.
-            for (int i = 0; i < width*height; i++)
+            int toReturn;
+            while (true)
             {
-                createdBoard.Add(" ");
+                // Check if the key pressed is a digit.
+                if (char.IsDigit(input.KeyChar))
+                {
+                    // Try and convert it to an int.
+                    toReturn = int.Parse(input.KeyChar.ToString());
+                    // If it isn't between the right numbers, then continue onwards and ask for a new one.
+                    if (toReturn >= 0 && toReturn <= maxNum-1)
+                    {
+                        break;
+                    }
+                    Console.WriteLine($"That is not a valid move. Please enter a number between 0 and {maxNum-1}: ");
+                    input = Console.ReadKey();
+                }
+                else
+                {
+                    // It isn't, so it definitely isn't a right move.
+                    Console.WriteLine($"That is not a valid move. Please enter a number between 0 and {maxNum-1}: ");
+                    input = Console.ReadKey();
+                }
             }
 
-            return createdBoard;
+            return toReturn;
         }
-
-        static List<string> MakeMove(List<string> board, int width, int height, int currentPlayer, string moveSymbol)
-        {
-            List<string> newBoard = board;
-            // Take the player's move coordinates.
-            int moveX, moveY;
-            // Save user input.
-            System.ConsoleKeyInfo rawInput;
-
-            Console.WriteLine($"\nPlease enter an x-coordinate, player {currentPlayer}: ");
-            rawInput = Console.ReadKey();
-            moveX = CheckForValidMove(rawInput, width);
-
-            Console.WriteLine($"\nPlease enter a y-coordinate, player {currentPlayer}: ");
-            rawInput = Console.ReadKey();
-            moveY = CheckForValidMove(rawInput, height);
-
-            int spaceToPlace = moveX + width*moveY;
-
-            newBoard[spaceToPlace] = moveSymbol;
-
-            return newBoard;
-        }
-
+        
         static string DrawBoard(List<string> boardToDraw, int width, int height)
         {
             StringBuilder toReturn = new StringBuilder("\n+");
@@ -142,33 +135,41 @@ namespace Tic_Tac_Toe
             return toReturn.ToString();
         }
 
-        static int CheckForValidMove(System.ConsoleKeyInfo input, int maxNum)
+        static List<string> MakeBoard(int width, int height)
         {
-            int toReturn;
-            while (true)
+            List<string> createdBoard = new List<string>();
+
+            // Fill the board with empty spaces.
+            for (int i = 0; i < width*height; i++)
             {
-                // Check if the key pressed is a digit.
-                if (char.IsDigit(input.KeyChar))
-                {
-                    // Try and convert it to an int.
-                    toReturn = int.Parse(input.KeyChar.ToString());
-                    // If it isn't between the right numbers, then continue onwards and ask for a new one.
-                    if (toReturn >= 0 && toReturn <= maxNum-1)
-                    {
-                        break;
-                    }
-                    Console.WriteLine($"That is not a valid move. Please enter a number between 0 and {maxNum-1}: ");
-                    input = Console.ReadKey();
-                }
-                else
-                {
-                    // It isn't, so it definitely isn't a right move.
-                    Console.WriteLine($"That is not a valid move. Please enter a number between 0 and {maxNum-1}: ");
-                    input = Console.ReadKey();
-                }
+                createdBoard.Add(" ");
             }
 
-            return toReturn;
+            return createdBoard;
         }
+
+        static List<string> MakeMove(List<string> board, int width, int height, int currentPlayer, string moveSymbol)
+        {
+            List<string> newBoard = board;
+            // Take the player's move coordinates.
+            int moveX, moveY;
+            // Save user input.
+            System.ConsoleKeyInfo rawInput;
+
+            Console.WriteLine($"\nPlease enter an x-coordinate, player {currentPlayer}: ");
+            rawInput = Console.ReadKey();
+            moveX = CheckForValidMove(rawInput, width);
+
+            Console.WriteLine($"\nPlease enter a y-coordinate, player {currentPlayer}: ");
+            rawInput = Console.ReadKey();
+            moveY = CheckForValidMove(rawInput, height);
+
+            int spaceToPlace = moveX + width*moveY;
+
+            newBoard[spaceToPlace] = moveSymbol;
+
+            return newBoard;
+        }
+
     }
 }
