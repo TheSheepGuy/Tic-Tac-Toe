@@ -13,8 +13,8 @@ namespace Tic_Tac_Toe
             // Declare the symbols used to represent players 1 and 2.
             const string player1Symbol = "X";
             const string player2Symbol = "O";
-            // Make the width and height variables.
-            int width, height;
+            // Make the width and height variables, and the variables to check for a win.
+            int width, height, winNumber, winner = 0;
             // Declare a player variable which keeps track of whose turn it is.
 
 
@@ -29,6 +29,8 @@ namespace Tic_Tac_Toe
                     width = int.Parse(Console.ReadLine());
                     Console.WriteLine("Please enter the height of the board: ");
                     height = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Please enter the symbols in a row to win: ");
+                    winNumber = int.Parse(Console.ReadLine());
                     break;
                 }
                 catch(FormatException)
@@ -47,8 +49,39 @@ namespace Tic_Tac_Toe
             {
                 Console.WriteLine(DrawBoard(board, width, height));
                 MakeMove(board, width, height, 1, player1Symbol);
+                winner = CheckForWin(board, width, height, winNumber);
+                if (winner == 1)
+                {
+                    break;
+                }
+
                 Console.WriteLine(DrawBoard(board, width, height));
                 MakeMove(board, width, height, 2, player2Symbol);
+                winner = CheckForWin(board, width, height, winNumber);
+            }
+
+            // If the board's area is odd, then player 1 will go last, and maxMoves / 2 will have remainder 1. That's why the above for loop won't cover for the last move.
+            if (maxMoves % 2 == 1)
+            {
+                Console.WriteLine(DrawBoard(board, width, height));
+                MakeMove(board, width, height, 1, player1Symbol);
+                winner = CheckForWin(board, width, height, winNumber);
+            }
+
+            switch (winner)
+            {
+                case 1:
+                    Console.WriteLine(DrawBoard(board, width, height));
+                    Console.WriteLine("Player 1 wins!");
+                    break;
+                case 2:
+                    Console.WriteLine(DrawBoard(board, width, height));
+                    Console.WriteLine("Player 2 wins!");
+                    break;
+                default:
+                    Console.WriteLine(DrawBoard(board, width, height));
+                    Console.WriteLine("It's a draw.");
+                    break;
             }
         }
 
@@ -81,6 +114,47 @@ namespace Tic_Tac_Toe
             return toReturn;
         }
         
+        static int CheckForWin(List<string> boardToCheck, int width, int height, int winNumber)
+        {
+            int win = -1;
+
+            for (int currentSpaceNumber = 0; currentSpaceNumber < boardToCheck.Count; currentSpaceNumber++)
+            {
+                string currentState = boardToCheck[currentSpaceNumber];
+
+                // Get the (x,y) coordinate of the current space that is being checked.
+                int x = currentSpaceNumber % width,
+                    y = currentSpaceNumber / width;
+
+                // Check diagonal up-right.
+                if ((x + height) <= width || (y - height) >= 0)
+                {
+                    for (int i = 0; i < winNumber; i++)
+                    {
+                        if ((boardToCheck[x+i] + width*(y-i)) != currentState)
+                        {
+                            break;
+                        }
+                        if (i == winNumber)
+                        {
+                            win = 1;
+                        }
+                    }
+                }
+
+                // Check diagonal down-right.
+
+                // Check left-right.
+
+                // Check up-down.
+
+                if (win != 1)
+                {
+                    win = 0;
+                }
+            }
+            return win;
+        }
         static string DrawBoard(List<string> boardToDraw, int width, int height)
         {
             StringBuilder toReturn = new StringBuilder("\n+");
