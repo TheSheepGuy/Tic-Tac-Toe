@@ -49,23 +49,30 @@ namespace Tic_Tac_Toe
             {
                 Console.WriteLine(DrawBoard(board, width, height));
                 MakeMove(board, width, height, 1, player1Symbol);
-                winner = CheckForWin(board, width, height, winNumber);
-                if (winner == 1)
+                if (CheckForWin(board, width, height, winNumber) == true)
                 {
+                    winner = 1;
                     break;
                 }
 
                 Console.WriteLine(DrawBoard(board, width, height));
                 MakeMove(board, width, height, 2, player2Symbol);
-                winner = CheckForWin(board, width, height, winNumber);
+                if (CheckForWin(board, width, height, winNumber) == true)
+                {
+                    winner = 2;
+                    break;
+                }
             }
 
-            // If the board's area is odd, then player 1 will go last, and maxMoves / 2 will have remainder 1. That's why the above for loop won't cover for the last move.
-            if (maxMoves % 2 == 1)
+            // If the board's area is odd, then player 1 will go last, and maxMoves / 2 will have remainder 1. That's why the above for loop won't cover for the last move. Also, the and checks if someone hasn't won already.
+            if (maxMoves % 2 == 1 && winner == 0)
             {
                 Console.WriteLine(DrawBoard(board, width, height));
                 MakeMove(board, width, height, 1, player1Symbol);
-                winner = CheckForWin(board, width, height, winNumber);
+                if (CheckForWin(board, width, height, winNumber) == true)
+                {
+                    winner = 1;
+                }
             }
 
             switch (winner)
@@ -114,46 +121,100 @@ namespace Tic_Tac_Toe
             return toReturn;
         }
         
-        static int CheckForWin(List<string> boardToCheck, int width, int height, int winNumber)
+        static bool CheckForWin(List<string> boardToCheck, int width, int height, int winNumber)
         {
-            int win = -1;
-
             for (int currentSpaceNumber = 0; currentSpaceNumber < boardToCheck.Count; currentSpaceNumber++)
             {
                 string currentState = boardToCheck[currentSpaceNumber];
+
+                // If the state is a space, no-one could have won.
+                if (currentState == " ")
+                {
+                    continue;
+                }
 
                 // Get the (x,y) coordinate of the current space that is being checked.
                 int x = currentSpaceNumber % width,
                     y = currentSpaceNumber / width;
 
-                // Check diagonal up-right.
-                if ((x + height) <= width || (y - height) >= 0)
+                // Check left-right.
+                // All of these methods take the same sort of structure.
+                // Check whether a win through horizontal in a row is even possible.
+                if ((x + winNumber) <= width)
                 {
+                    // Check the next spaces up to the winNumber. If it's any longer, then there's no point in continuing to check. Getting 4-in-a-row if you only need 3 doesn't get you extra points.
                     for (int i = 0; i < winNumber; i++)
                     {
-                        if ((boardToCheck[x+i] + width*(y-i)) != currentState)
+                        // If the space that's to the left is the same as the current one, break the loop. If it is, then continue to the next one.
+                        if (boardToCheck[x+i] != currentState)
                         {
                             break;
                         }
-                        if (i == winNumber)
+                        // Once you've reached winNumber, then return true, as you've won.
+                        if (i == winNumber-1)
                         {
-                            win = 1;
+                            return true;
                         }
                     }
                 }
 
-                // Check diagonal down-right.
-
-                // Check left-right.
-
-                // Check up-down.
-
-                if (win != 1)
+                // Check up-down. Same structure as above.
+                if ((y + winNumber) <= height)
                 {
-                    win = 0;
+                    for (int i = 0; i < winNumber; i++)
+                    {
+                        // If the space that's to the left is the same as the current one, break the loop. If it is, then continue to the next one.
+                        if (boardToCheck[y + width*i] != currentState)
+                        {
+                            break;
+                        }
+                        // Once you've reached winNumber, then return true, as you've won.
+                        if (i == winNumber-1)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                // Check diagonal up-right.
+                // Firstly, check if the selected space can even have winNumber in a row. For example, in Tic-Tac-Toe, only (0,2) can have a diagonal up-right win.
+                if ((x + winNumber) <= width && (y+1 - winNumber) >= 0)
+                {
+                    // Repeat for the number of necessary spaces you need to have in a row to win (winNumber). Doing more would be useless.
+                    for (int i = 1; i < winNumber; i++)
+                    {
+                        // Check if up and to the right is the same as the current one. If it isn't, then stop checking (as you cannot win).
+                        if (boardToCheck[(x+i) + width*(y-i)] != currentState)
+                        {
+                            break;
+                        }
+                        // If you've checked them all, return true.
+                        if (i == winNumber-1)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                // Check diagonal down-right. Same algorithm as above, just adjusted to go in another direction.
+                if ((x + winNumber) <= width && (y + winNumber) <= height)
+                {
+                    for (int i = 0; i < winNumber; i++)
+                    {
+                        if (boardToCheck[(x+i) + width*(y+i)] != currentState)
+                        {
+                            break;
+                        }
+                        if (i == winNumber-1)
+                        {
+                            return true;
+                        }
+                    }
                 }
             }
-            return win;
+
+            // If nothing's been returned yet, then it must be false.
+            return false;
         }
         static string DrawBoard(List<string> boardToDraw, int width, int height)
         {
