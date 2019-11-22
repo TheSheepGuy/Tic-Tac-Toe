@@ -21,23 +21,9 @@ namespace Tic_Tac_Toe
             Console.WriteLine("\n\n=TIC-TAC-TOE=");
 
             // Get the width and height of the board.
-            while (true)
-            {
-                try
-                {
-                    Console.WriteLine("Please enter the width of the board: ");
-                    width = int.Parse(Console.ReadLine());
-                    Console.WriteLine("Please enter the height of the board: ");
-                    height = int.Parse(Console.ReadLine());
-                    Console.WriteLine("Please enter the symbols in a row to win: ");
-                    winNumber = int.Parse(Console.ReadLine());
-                    break;
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("That is not a number. Please enter a natural number.");
-                }
-            }
+            width = GetSimpleNumber("Please enter the width of the board: ", "That is not a number. Please enter a natural number.");
+            height = GetSimpleNumber("Please enter the height of the board: ", "That is not a number.Please enter a natural number.");
+            winNumber = GetSimpleNumber("Please enter the symbols in a row to win: ", "That is not a number.Please enter a natural number.");
 
             List<string> board = MakeBoard(width, height);
             // Work out what the possible maximum moves are (which is the area).
@@ -276,6 +262,31 @@ namespace Tic_Tac_Toe
             }
 
             return toReturn.ToString();
+        }
+
+        static int GetSimpleNumber(string message, string failMessage)
+        {
+            int toReturn;
+            while (true)
+            {
+                try
+                {
+                    Console.Write($"\n{message}");
+                    toReturn = int.Parse(Console.ReadLine());
+                    if (Math.Sign(toReturn) == 1)
+                    {
+                        return toReturn;
+                    }
+                    else
+                    {
+                        throw new FormatException();
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine(failMessage);
+                }
+            }
         }
 
         static List<string> MakeBoard(int width, int height)
