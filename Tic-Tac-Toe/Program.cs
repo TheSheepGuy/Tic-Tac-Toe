@@ -92,33 +92,39 @@ namespace Tic_Tac_Toe
             }
         }
 
-        static int CheckForValidMove(System.ConsoleKeyInfo input, int maxNum)
+        static int CheckForValidMove(string input, int minNum, int maxNum, string message)
         {
             int toReturn;
+            string inputToCheck = input;
+
             while (true)
             {
-                // Check if the key pressed is a digit.
-                if (char.IsDigit(input.KeyChar))
+                // Hope that what the user entered is actually a number.
+                try
                 {
-                    // Try and convert it to an int.
-                    toReturn = int.Parse(input.KeyChar.ToString());
-                    // If it isn't between the right numbers, then continue onwards and ask for a new one.
-                    if (toReturn >= 0 && toReturn <= maxNum - 1)
+                    // Convert the entered string to an int.
+                    toReturn = int.Parse(inputToCheck);
+                    if (toReturn >= minNum && toReturn <= maxNum)
                     {
-                        break;
+                        return toReturn;
                     }
-                    Console.WriteLine($"That is not a valid move. Please enter a number between 0 and {maxNum - 1}: ");
-                    input = Console.ReadKey();
+                    else
+                    {
+                        // It isn't in the correct region, so report to the user that they need to enter the number again.
+                        Console.WriteLine($"{message} Please enter a number between {minNum} and {maxNum}: ");
+                        // Since this is the end of the loop, it'll go back up to the 'try'.
+                        inputToCheck = Console.ReadLine();
+                    }
+
                 }
-                else
+                catch (FormatException)
                 {
                     // It isn't, so it definitely isn't a right move.
-                    Console.WriteLine($"That is not a valid move. Please enter a number between 0 and {maxNum - 1}: ");
-                    input = Console.ReadKey();
+                    Console.WriteLine($"{message} Please enter a number between {minNum} and {maxNum}: ");
+                    // Get the new input to check over. After this, it's reached the end of the while loop, so it'll go back to the top of the 'try'.
+                    inputToCheck = Console.ReadLine();
                 }
             }
-
-            return toReturn;
         }
 
         static bool CheckForWin(List<string> boardToCheck, int width, int height, int winNumber)
@@ -291,15 +297,15 @@ namespace Tic_Tac_Toe
             // Take the player's move coordinates.
             int moveX, moveY;
             // Save user input.
-            System.ConsoleKeyInfo rawInput;
+            string rawInput;
 
             Console.WriteLine($"\nPlease enter an x-coordinate, player {currentPlayer}: ");
-            rawInput = Console.ReadKey();
-            moveX = CheckForValidMove(rawInput, width);
+            rawInput = Console.ReadLine();
+            moveX = CheckForValidMove(rawInput, 0, width, "That is not a valid move.");
 
             Console.WriteLine($"\nPlease enter a y-coordinate, player {currentPlayer}: ");
-            rawInput = Console.ReadKey();
-            moveY = CheckForValidMove(rawInput, height);
+            rawInput = Console.ReadLine();
+            moveY = CheckForValidMove(rawInput, 0, width, "That is not a valid move.");
 
             int spaceToPlace = moveX + width * moveY;
 
