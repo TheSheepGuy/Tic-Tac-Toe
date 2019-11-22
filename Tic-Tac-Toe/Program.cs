@@ -21,7 +21,7 @@ namespace Tic_Tac_Toe
             Console.WriteLine("\n\n=TIC-TAC-TOE=");
 
             // Get the width and height of the board.
-            while(true)
+            while (true)
             {
                 try
                 {
@@ -33,19 +33,19 @@ namespace Tic_Tac_Toe
                     winNumber = int.Parse(Console.ReadLine());
                     break;
                 }
-                catch(FormatException)
+                catch (FormatException)
                 {
                     Console.WriteLine("That is not a number. Please enter a natural number.");
                 }
             }
-            
+
             List<string> board = MakeBoard(width, height);
             // Work out what the possible maximum moves are (which is the area).
             int maxMoves = width * height;
 
 
             // Continuously loop until there cannot possibly be any moves left.
-            for (int currentMoveNumber = 0; currentMoveNumber < maxMoves/2; currentMoveNumber++)
+            for (int currentMoveNumber = 0; currentMoveNumber < maxMoves / 2; currentMoveNumber++)
             {
                 Console.WriteLine(DrawBoard(board, width, height));
                 MakeMove(board, width, height, 1, player1Symbol);
@@ -103,24 +103,24 @@ namespace Tic_Tac_Toe
                     // Try and convert it to an int.
                     toReturn = int.Parse(input.KeyChar.ToString());
                     // If it isn't between the right numbers, then continue onwards and ask for a new one.
-                    if (toReturn >= 0 && toReturn <= maxNum-1)
+                    if (toReturn >= 0 && toReturn <= maxNum - 1)
                     {
                         break;
                     }
-                    Console.WriteLine($"That is not a valid move. Please enter a number between 0 and {maxNum-1}: ");
+                    Console.WriteLine($"That is not a valid move. Please enter a number between 0 and {maxNum - 1}: ");
                     input = Console.ReadKey();
                 }
                 else
                 {
                     // It isn't, so it definitely isn't a right move.
-                    Console.WriteLine($"That is not a valid move. Please enter a number between 0 and {maxNum-1}: ");
+                    Console.WriteLine($"That is not a valid move. Please enter a number between 0 and {maxNum - 1}: ");
                     input = Console.ReadKey();
                 }
             }
 
             return toReturn;
         }
-        
+
         static bool CheckForWin(List<string> boardToCheck, int width, int height, int winNumber)
         {
             for (int currentSpaceNumber = 0; currentSpaceNumber < boardToCheck.Count; currentSpaceNumber++)
@@ -146,12 +146,12 @@ namespace Tic_Tac_Toe
                     for (int i = 0; i < winNumber; i++)
                     {
                         // If the space that's to the left is the same as the current one, break the loop. If it is, then continue to the next one.
-                        if (boardToCheck[x+i] != currentState)
+                        if (boardToCheck[x + i] != currentState)
                         {
                             break;
                         }
                         // Once you've reached winNumber, then return true, as you've won.
-                        if (i == winNumber-1)
+                        if (i == winNumber - 1)
                         {
                             return true;
                         }
@@ -164,12 +164,12 @@ namespace Tic_Tac_Toe
                     for (int i = 1; i < winNumber; i++)
                     {
                         // If the space that's to the left is the same as the current one, break the loop. If it is, then continue to the next one.
-                        if (boardToCheck[x + width * (y+i)] != currentState)
+                        if (boardToCheck[x + width * (y + i)] != currentState)
                         {
                             break;
                         }
                         // Once you've reached winNumber, then return true, as you've won.
-                        if (i == winNumber-1)
+                        if (i == winNumber - 1)
                         {
                             return true;
                         }
@@ -178,18 +178,18 @@ namespace Tic_Tac_Toe
 
                 // Check diagonal up-right.
                 // Firstly, check if the selected space can even have winNumber in a row. For example, in Tic-Tac-Toe, only (0,2) can have a diagonal up-right win.
-                if ((x + winNumber) <= width && (y+1 - winNumber) >= 0)
+                if ((x + winNumber) <= width && (y + 1 - winNumber) >= 0)
                 {
                     // Repeat for the number of necessary spaces you need to have in a row to win (winNumber). Doing more would be useless.
                     for (int i = 1; i < winNumber; i++)
                     {
                         // Check if up and to the right is the same as the current one. If it isn't, then stop checking (as you cannot win).
-                        if (boardToCheck[(x+i) + width*(y-i)] != currentState)
+                        if (boardToCheck[(x + i) + width * (y - i)] != currentState)
                         {
                             break;
                         }
                         // If you've checked them all, return true.
-                        if (i == winNumber-1)
+                        if (i == winNumber - 1)
                         {
                             return true;
                         }
@@ -201,11 +201,11 @@ namespace Tic_Tac_Toe
                 {
                     for (int i = 0; i < winNumber; i++)
                     {
-                        if (boardToCheck[(x+i) + width*(y+i)] != currentState)
+                        if (boardToCheck[(x + i) + width * (y + i)] != currentState)
                         {
                             break;
                         }
-                        if (i == winNumber-1)
+                        if (i == winNumber - 1)
                         {
                             return true;
                         }
@@ -216,7 +216,7 @@ namespace Tic_Tac_Toe
             // If nothing's been returned yet, then it must be false.
             return false;
         }
-        
+
         static string DrawBoard(List<string> boardToDraw, int width, int height)
         {
             StringBuilder toReturn = new StringBuilder("\n+");
@@ -240,7 +240,7 @@ namespace Tic_Tac_Toe
                 for (int x = 0; x < width; x++)
                 {
                     // This write the actual state. x+width*y will return whatever is at the current x,y position.
-                    toReturn.Append($" {boardToDraw[(x+width*y)]} |");
+                    toReturn.Append($" {boardToDraw[(x + width * y)]} |");
                 }
                 toReturn.Append("\n|");
 
@@ -258,12 +258,13 @@ namespace Tic_Tac_Toe
                 }
 
                 // If it's not the last loop, then append a | for the next row.
-                if (y < height-1)
+                if (y < height - 1)
                 {
                     toReturn.Append("\n|");
                 }
                 // Otherwise, append a new line control character.
-                else{
+                else
+                {
                     toReturn.Append("\n");
                 }
             }
@@ -276,7 +277,7 @@ namespace Tic_Tac_Toe
             List<string> createdBoard = new List<string>();
 
             // Fill the board with empty spaces.
-            for (int i = 0; i < width*height; i++)
+            for (int i = 0; i < width * height; i++)
             {
                 createdBoard.Add(" ");
             }
@@ -300,7 +301,7 @@ namespace Tic_Tac_Toe
             rawInput = Console.ReadKey();
             moveY = CheckForValidMove(rawInput, height);
 
-            int spaceToPlace = moveX + width*moveY;
+            int spaceToPlace = moveX + width * moveY;
 
             newBoard[spaceToPlace] = moveSymbol;
 
