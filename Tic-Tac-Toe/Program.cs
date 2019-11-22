@@ -161,10 +161,10 @@ namespace Tic_Tac_Toe
                 // Check up-down. Same structure as above.
                 if ((y + winNumber) <= height)
                 {
-                    for (int i = 0; i < winNumber; i++)
+                    for (int i = 1; i < winNumber; i++)
                     {
                         // If the space that's to the left is the same as the current one, break the loop. If it is, then continue to the next one.
-                        if (boardToCheck[y + width*i] != currentState)
+                        if (boardToCheck[x + width * (y+i)] != currentState)
                         {
                             break;
                         }
