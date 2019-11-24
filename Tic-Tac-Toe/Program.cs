@@ -215,7 +215,8 @@ namespace Tic_Tac_Toe
             // Add the top border. For Tic-Tac-Toe, this will be "+---+---+---+" (the initial + was added on the line above).
             for (int x = 0; x < width; x++)
             {
-                toReturn.Append("---+");
+                // The x places a coordinate to help visualise the board easier for the user.
+                toReturn.Append($"-{x}-+");
             }
             toReturn.Append("\n|");
 
@@ -226,7 +227,8 @@ namespace Tic_Tac_Toe
                 {
                     toReturn.Append("   |");
                 }
-                toReturn.Append("\n|");
+                // The y places a coordinate to help visualise the board easier for the user.
+                toReturn.Append($"\n{y}");
 
                 // Now write in whatever the spaces are, e.g. "| X |   | O |".
                 for (int x = 0; x < width; x++)
