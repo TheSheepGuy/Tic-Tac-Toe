@@ -78,7 +78,7 @@ namespace Tic_Tac_Toe
             }
         }
 
-        static int CheckForValidMove(string input, int minNum, int maxNum, string message)
+        static int CheckForValidCoordinate(string input, int minNum, int maxNum, string message)
         {
             int toReturn;
             string inputToCheck = input;
@@ -306,20 +306,46 @@ namespace Tic_Tac_Toe
         {
             List<string> newBoard = board;
             // Take the player's move coordinates.
-            int moveX, moveY;
+            int moveX, moveY, spaceToPlace;
             // Save user input.
             string rawInput;
 
-            Console.WriteLine($"\nPlease enter an x-coordinate, player {currentPlayer}: ");
-            rawInput = Console.ReadLine();
-            moveX = CheckForValidMove(rawInput, 0, width, "That is not a valid move.");
+            while (true)
+            {
+                // Get the coordinates.
+                Console.WriteLine($"Please enter an x-coordinate, player {currentPlayer}: ");
+                rawInput = Console.ReadLine();
+                moveX = CheckForValidCoordinate(rawInput, 0, width, "That is not a valid move.");
 
-            Console.WriteLine($"\nPlease enter a y-coordinate, player {currentPlayer}: ");
-            rawInput = Console.ReadLine();
-            moveY = CheckForValidMove(rawInput, 0, width, "That is not a valid move.");
+                Console.WriteLine($"Please enter a y-coordinate, player {currentPlayer}: ");
+                rawInput = Console.ReadLine();
+                moveY = CheckForValidCoordinate(rawInput, 0, width, "That is not a valid move.");
 
-            int spaceToPlace = moveX + width * moveY;
+                //Get the correct index in the board list.
+                spaceToPlace = moveX + width * moveY;
 
+                //A try is used in case the user types a coordinate too large.
+                try
+                {
+                    // Check if the space is already occupied.
+                    if (newBoard[spaceToPlace] != " ")
+                    {
+                        Console.WriteLine(DrawBoard(board, width, height));
+                        Console.WriteLine("\nThat space is already occupied! You need to choose another.");
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    Console.WriteLine(DrawBoard(board, width, height));
+                    Console.WriteLine("\nThat coordinate is outside of the board!");
+                }
+            }
+            
+            // Change the board to reflect the new move.
             newBoard[spaceToPlace] = moveSymbol;
 
             return newBoard;
