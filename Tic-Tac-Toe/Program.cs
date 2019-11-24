@@ -65,17 +65,18 @@ namespace Tic_Tac_Toe
             {
                 case 1:
                     Console.WriteLine(DrawBoard(board, width, height));
-                    Console.WriteLine("Player 1 wins!");
+                    Console.WriteLine("Player 1 wins! Press any key to exit.");
                     break;
                 case 2:
                     Console.WriteLine(DrawBoard(board, width, height));
-                    Console.WriteLine("Player 2 wins!");
+                    Console.WriteLine("Player 2 wins! Press any key to exit.");
                     break;
                 default:
                     Console.WriteLine(DrawBoard(board, width, height));
-                    Console.WriteLine("It's a draw.");
+                    Console.WriteLine("It's a draw. Press any key to exit.");
                     break;
             }
+            Console.ReadKey();
         }
 
         static int CheckForValidCoordinate(string input, int minNum, int maxNum, string message)
