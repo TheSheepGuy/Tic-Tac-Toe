@@ -8,8 +8,6 @@ namespace Tic_Tac_Toe
 	{
 		static void Main(string[] args)
 		{
-			// Declare initial variables.
-
 			// Declare the symbols used to represent players 1 and 2.
 			string[] playerSymbols = new string[] {"X", "O"};
 			// Make the width and height variables, and the variables to check for a win.
@@ -77,7 +75,6 @@ namespace Tic_Tac_Toe
 
 			while (true)
 			{
-				// Hope that what the user entered is actually a number.
 				try
 				{
 					// Convert the entered string to an int.
@@ -97,7 +94,7 @@ namespace Tic_Tac_Toe
 				}
 				catch (FormatException)
 				{
-					// It isn't, so it definitely isn't a right move.
+					// The user hasn't entered a correct number, so it definitely isn't a right move.
 					Console.WriteLine($"{message} Please enter a number between {minNum} and {maxNum}: ");
 					// Get the new input to check over. After this, it's reached the end of the while loop, so it'll go back to the top of the 'try'.
 					inputToCheck = Console.ReadLine();
@@ -300,7 +297,6 @@ namespace Tic_Tac_Toe
 			List<string> newBoard = board;
 			// Take the player's move coordinates.
 			int moveX, moveY, spaceToPlace;
-			// Save user input.
 			string rawInput;
 
 			while (true)
@@ -314,10 +310,10 @@ namespace Tic_Tac_Toe
 				rawInput = Console.ReadLine();
 				moveY = CheckForValidCoordinate(rawInput, 0, width, "That is not a valid move.");
 
-				//Get the correct index in the board list.
+				// Get the correct index in the board list.
 				spaceToPlace = moveX + width * moveY;
 
-				//A try is used in case the user types a coordinate too large.
+				// A try is used in case the user types a coordinate too large.
 				try
 				{
 					// Check if the space is already occupied.
