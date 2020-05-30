@@ -11,12 +11,9 @@ namespace Tic_Tac_Toe
 			// Declare initial variables.
 
 			// Declare the symbols used to represent players 1 and 2.
-			const string player1Symbol = "X";
-			const string player2Symbol = "O";
+			string[] playerSymbols = new string[] {"X", "O"};
 			// Make the width and height variables, and the variables to check for a win.
 			int width, height, winNumber, winner = 0;
-			// Declare a player variable which keeps track of whose turn it is.
-
 
 			Console.WriteLine("\n\n=TIC-TAC-TOE=");
 
@@ -29,24 +26,18 @@ namespace Tic_Tac_Toe
 			// Work out what the possible maximum moves are (which is the area).
 			int maxMoves = width * height;
 
-
 			// Continuously loop until there cannot possibly be any moves left.
 			for (int currentMoveNumber = 0; currentMoveNumber < maxMoves / 2; currentMoveNumber++)
 			{
-				Console.WriteLine(DrawBoard(board, width, height));
-				MakeMove(board, width, height, 1, player1Symbol);
-				if (CheckForWin(board, width, height, winNumber) == true)
+				for (int currentPlayer = 0; currentPlayer < playerSymbols.Length; currentPlayer++)
 				{
-					winner = 1;
-					break;
-				}
-
-				Console.WriteLine(DrawBoard(board, width, height));
-				MakeMove(board, width, height, 2, player2Symbol);
-				if (CheckForWin(board, width, height, winNumber) == true)
-				{
-					winner = 2;
-					break;
+					Console.WriteLine(DrawBoard(board, width, height));
+					MakeMove(board, width, height, currentPlayer + 1, playerSymbols[currentPlayer]);
+					if (CheckForWin(board, width, height, winNumber) == true)
+					{
+						winner = currentPlayer + 1;
+						break;
+					}
 				}
 			}
 
@@ -54,7 +45,7 @@ namespace Tic_Tac_Toe
 			if (maxMoves % 2 == 1 && winner == 0)
 			{
 				Console.WriteLine(DrawBoard(board, width, height));
-				MakeMove(board, width, height, 1, player1Symbol);
+				MakeMove(board, width, height, 1, playerSymbols[0]);
 				if (CheckForWin(board, width, height, winNumber) == true)
 				{
 					winner = 1;
@@ -127,8 +118,7 @@ namespace Tic_Tac_Toe
 				}
 
 				// Get the (x,y) coordinate of the current space that is being checked.
-				int x = currentSpaceNumber % width,
-					y = currentSpaceNumber / width;
+				int x = currentSpaceNumber % width, y = currentSpaceNumber / width;
 
 				// Check left-right.
 				// All of these methods take the same sort of structure.
