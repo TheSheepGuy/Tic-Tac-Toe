@@ -22,8 +22,8 @@ namespace Tic_Tac_Toe
 
 			// Get the width and height of the board.
 			width = GetSimpleNumber("Please enter the width of the board: ", "That is not a number. Please enter a natural number.");
-			height = GetSimpleNumber("Please enter the height of the board: ", "That is not a number.Please enter a natural number.");
-			winNumber = GetSimpleNumber("Please enter the symbols in a row to win: ", "That is not a number.Please enter a natural number.");
+			height = GetSimpleNumber("Please enter the height of the board: ", "That is not a number. Please enter a natural number.");
+			winNumber = GetSimpleNumber("Please enter the symbols in a row to win: ", "That is not a number. Please enter a natural number.");
 
 			List<string> board = MakeBoard(width, height);
 			// Work out what the possible maximum moves are (which is the area).
