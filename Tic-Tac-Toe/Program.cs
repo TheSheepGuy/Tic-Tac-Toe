@@ -199,56 +199,27 @@ namespace Tic_Tac_Toe
 
 		static string DrawBoard(List<string> boardToDraw, int width, int height)
 		{
-			StringBuilder toReturn = new StringBuilder("\n+");
-			// Add the top border. For Tic-Tac-Toe, this will be "+---+---+---+" (the initial + was added on the line above).
+			StringBuilder toReturn = new StringBuilder("\n ");
+			// Add the top border. For Tic-Tac-Toe, this will be "  0 1 2 " (the first space was added on the line above).
 			for (int x = 0; x < width; x++)
 			{
 				// The x places a coordinate to help visualise the board easier for the user.
-				toReturn.Append($"-{x}-+");
+				toReturn.Append($" {x}");
 			}
-			toReturn.Append("\n|");
 
 			for (int y = 0; y < height; y++)
 			{
-				// This will add "|   |   |   |" etc. for how long the width says to do so (again, the initial | was added above).
-				for (int x = 0; x < width; x++)
-				{
-					toReturn.Append("   |");
-				}
+				toReturn.Append("\n");
 				// The y places a coordinate to help visualise the board easier for the user.
 				toReturn.Append($"\n{y}");
 
-				// Now write in whatever the spaces are, e.g. "| X |   | O |".
+				// Now write in whatever the spaces are, e.g. "  X O X".
 				for (int x = 0; x < width; x++)
 				{
 					// This write the actual state. x+width*y will return whatever is at the current x,y position.
-					toReturn.Append($" {boardToDraw[(x + width * y)]} |");
+					toReturn.Append($" {boardToDraw[(x + width * y)]}");
 				}
-				toReturn.Append("\n|");
-
-				// Finally, add "|   |   |   |" again.
-				for (int x = 0; x < width; x++)
-				{
-					toReturn.Append("   |");
-				}
-				toReturn.Append("\n+");
-
-				// Add the top border for the next row.
-				for (int x = 0; x < width; x++)
-				{
-					toReturn.Append("---+");
-				}
-
-				// If it's not the last loop, then append a | for the next row.
-				if (y < height - 1)
-				{
-					toReturn.Append("\n|");
-				}
-				// Otherwise, append a new line control character.
-				else
-				{
-					toReturn.Append("\n");
-				}
+				toReturn.Append("\n");
 			}
 
 			return toReturn.ToString();
